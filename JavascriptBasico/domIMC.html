@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      button#btnClear {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>IMC</h1>
+    <input
+      type="number"
+      id="height"
+      name="height"
+      placeholder="Height"
+      autofocus
+    />
+    <input type="number" id="weight" name="weight" placeholder="Weight" />
+    <button id="btnCalc" type="button">Calcular</button>
+    <button id="btnClear" type="button">Limpar</button>
+    <div>
+      <p id="resultImc">
+        Digite os valores acima e pressione "Calcular" para ver o resultado!
+      </p>
+    </div>
+
+    <script>
+      // IMC = Weight / (Height * Height)
+      const height = document.getElementById('height')
+      const weight = document.getElementById('weight')
+
+      const buttonCalc = document.getElementById('btnCalc')
+      const buttonClear = document.getElementById('btnClear')
+
+      let result = document.getElementById('resultImc')
+      let attributeAutofocus = document.createAttribute('autofocus')
+
+      function calcImc() {
+        buttonCalc.style.display = 'none'
+        buttonClear.style.display = 'inline'
+
+        if (weight.value == '' || height.value == '') {
+          result.innerText = 'Erro!!! Dados de entrada inválidos!'
+          result.style.color = '#ff0000'
+        } else {
+          imc = weight.value / (height.value * height.value)
+          
+          if (imc < 18.5) {
+            health = 'abaixo do peso'
+          } else if (imc >= 18.5 && imc < 25) {
+            health = 'no peso normal'
+          } else if (imc >= 25 && imc < 30) {
+            health = 'acima do peso'
+          } else {
+            health = 'entrando na faixa de obesidade, importante procurar um médico'
+          }
+          result.innerText = `Seu IMC é ${imc.toFixed(1)} e você está ${health}.`
+        }
+      }
+
+      buttonCalc.addEventListener('click', calcImc)
+
+      function cleanScreen() {
+        buttonCalc.style.display = 'inline'
+        buttonClear.style.display = 'none'
+        result.innerText = 'Digite os valores acima e pressione "Calcular" para ver o resultado!'
+        result.style.color = '#000000'
+        document.getElementById('height').value = ''
+        document.getElementById('weight').value = ''
+      }
+
+      buttonClear.addEventListener('click', cleanScreen)
+    </script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p id="text">Hello from SON</p>
+    <input type="text" name="email" />
+
+    <script>
+      const email = document.getElementsByName('email') // pego o elemento pela tag Name e adiciono a variável email;
+      console.log(email) // imprimo a variável no console;
+      let button = document.createElement('button') // crio um elemento button e insiro dentro de let button;
+      let attr = document.createAttribute('class') // crio um atributo class e insiro em let attr;
+      let text = document.createTextNode('Button Custom') // criando um texto, recebido por let text;
+      attr.value = 'customize class' // atribuo o valor customize class ao atributo class recebido por let attr;
+      button.setAttributeNode(attr) // adiciono o atributo criado e armazenado em let attr ao elemento button;
+      button.appendChild(text) // adicionando let text como filho de button;
+      document.body.appendChild(button) // adiciono o elemento button como filho de body;
+      document.body.removeChild(document.getElementById('text')) // removo o elemento com Id text (que é o <p>) da página.
+    </script>
+  </body>
+</html>

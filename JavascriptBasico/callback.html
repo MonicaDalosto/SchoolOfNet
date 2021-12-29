@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // Função Assíncrona:
+      /* setTimeout(function () {
+        console.log('Hello from async function')
+      }, 2000)
+
+      console.log('1')
+      console.log('2')
+      console.log('3') */
+
+      // Callback function com fluxo síncrono:
+      function sayHello(cb) {
+        return cb('Hello from callback function')
+      }
+      console.log('Console log 1')
+      sayHello(function (str) {
+        console.log(str)
+      })
+
+      console.log('Console log 2')
+
+      // Callback function - MDN example:
+      /* function greeting(name) {
+        console.log('step 3')
+        alert('Hello ' + name)
+      }
+
+      function processUserInput(callback) {
+        console.log('step 1')
+        var name = prompt('Please enter your name.')
+        console.log('step 2')
+        callback(name)
+        console.log('step 4')
+      }
+
+      processUserInput(greeting) */
+    </script>
+  </body>
+</html>

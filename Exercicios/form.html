@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário</title>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  
+  <div class="container">
+    <form id="form" action="" method="post" onsubmit="callValidation()">
+      <h1>
+        Formulário de Registro
+      </h1>
+      <fieldset form="contact" class="form-group">
+        <legend>Contato</legend>
+        <div class="input-control">
+          <label for="fullName">Nome</label>
+          <input id="fullName" type="text" name="fullName"/>
+          <div class="errorMessage" id="validationName"></div>
+        </div>
+        <div class="input-control">
+          <label for="email">Email</label>
+          <input id="email" type="text" name="email"/>
+          <div class="errorMessage" id="validationEmail"></div>
+        </div>
+      </fieldset>
+      <fieldset form="address" class="form-group">
+        <legend>Endereço</legend>
+        <div class="input-control">
+          <label for="cep">CEP</label>
+          <input id="cep" type="text" name="cep">
+          <div class="errorMessage" id="validationCep"></div>
+        </div>
+        <button id="search" type="button" onclick="searchCep()">Buscar Cep</button>
+        <div class="input-control">
+          <label for="street" >Logradouro</label>
+          <input id="street" type="text" name="street"/>
+          <div class="errorMessage" id="validationStreet"></div>
+        </div>
+        <div class="input-control">
+          <label for="number" >Número</label>
+          <input id="number" type="text" name="number"/>
+          <div class="errorMessage" id="validationNumber"></div>
+        </div>
+        <div class="input-control">
+          <label for="district">Bairro</label>
+          <input id="district" type="text" name="district"/>
+          <div class="errorMessage" id="validationDistrict"></div>
+        </div>
+        <div class="input-control">
+          <label for="city">Cidade</label>
+          <input id="city" type="text" name="city"/>
+          <div class="errorMessage" id="validationCity"></div>
+        </div>
+        <div class="input-control">
+          <label for="state">Estado</label>
+          <input id="state" type="text" name="state"/>
+          <div class="errorMessage" id="validationState"></div>
+        </div>
+      </fieldset>
+      <button id="submit" type="submit">Enviar</button>
+    </form>
+    
+    <div id="preloader" style="display: none;">
+      <img src="https://cdn.dribbble.com/users/1689917/screenshots/4419335/preloader-3.gif" alt="preloader">
+    </div>
+  </div>
+  
+
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="fillform.js"></script>
+</body>
+</html>
