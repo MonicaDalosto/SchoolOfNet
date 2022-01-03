@@ -139,31 +139,36 @@ fullName.onblur = () => {
   validateFullName(fullName);
 }
 
+// Função para validar se a data de nascimento informada é anterior à 01/01/1900:
+function isBirthdayDateValid (birthday) {
+  const limitDate = new Date(1900, 00, 01);
+  const limitDateString = Date.parse(limitDate);
+  const birthdayDate = Date.parse(birthday.value);
+  if(birthdayDate > limitDateString) {
+    return true;
+  }
+}
+
+// Função para validar se é maior de 18 anos:
 function isOverAge(birthday) {
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth() + 1;
-  const currentDay = new Date().getDate();
-  const birthdayYear = Number(birthday.split('-')[0]);
-  const birthdayMonth = Number(birthday.split('-')[1]);
-  const birthdayDay = Number(birthday.split('-')[2]);
-  
-  if(birthdayYear < 1900 || birthdayYear > currentYear) {
-    return age = -1;
-  } else if(currentYear - birthdayYear > 18 || ((currentYear - birthdayYear == 18) && (currentMonth - birthdayMonth > 0)) || ((currentYear - birthdayYear == 18) && (currentMonth - birthdayMonth == 0) && (currentDay - birthdayDay >= 0))) {
-    return age = 1;
-  } else {
-    return age = 0
+  const underAgeLimit = 18;
+  const underAgeMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - underAgeLimit)).setHours(00,00,00,00);
+  const birthdayDate = new Date(new Date(birthday.value)).setHours(00,00,00,00);
+  if(birthdayDate < underAgeMinDate) {
+    return true;
   }
 }
 
 const validateBirthday = (element) => {
   birthdayValue = element.value.trim();
-  console.log(birthday);
   if(birthdayValue === '') {
+    console.log('em branco');
     setError(element, 'É necessário informar a data de Nascimento'); 
-  } else if(isOverAge(birthdayValue) == -1) {
+  } else if(!isBirthdayDateValid(element)) {
+    console.log('ano inválido');
     setError(element, 'O ano de nascimento informado é inválido');
-  } else if(isOverAge(birthdayValue) == 0) {
+  } else if(!isOverAge(element)) {
+    console.log('menor de idade');
     setUnderAge(element, 'Você é menor de idade. Peça a autorização dos seus pais para concluir o cadastro!'); 
   } else {
     setSuccess(element);
@@ -212,15 +217,62 @@ const isValidPassword = (password) => {
   
 }
 
+const passwordContainsName = () => {
+  const passwordValue = password.value.toLowerCase();
+  const fullNameString = fullName.value.toLowerCase();
+  const fullNamewithoutAccent = fullNameString.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+  const fullNameArray = fullNamewithoutAccent.split(' ');
+  
+  for (element of fullNameArray) {
+    if (passwordValue.includes(element)) {
+      console.log(element);
+      return true;
+    }
+  }
+}
+
+const passwordContainsBirthdayDate = () => {
+  const passwordValue = password.value.trim();
+  const birthdayValue = new Date(birthday.value);
+  const birthdayDay = String(birthdayValue.getDate()).padStart(2,'0');
+  const birthdayMonth = String((birthdayValue.getMonth() + 1)).padStart(2,'0'); //January is 0!
+  const birthdayFullYear = String(birthdayValue.getFullYear());
+  const birthdayYear = String(birthdayValue.getYear());
+  const birthdayDDMMYYYY = birthdayDay + birthdayMonth + birthdayFullYear;
+  const birthdayDDMMYY = birthdayDay + birthdayMonth + birthdayYear;
+
+  if (passwordValue.includes(birthdayDDMMYY) || passwordValue.includes(birthdayDDMMYYYY)) {
+    console.log('erro, email');
+    return true;
+  }
+}
+
+const passwordContainsEmail = () => {
+  const passwordValue = password.value.toLowerCase();
+  const emailString = email.value.toLowerCase();
+  const emailArray = emailString.split('@');
+  
+  for (element of emailArray) {
+    if (passwordValue.includes(element)) {
+      console.log(element);
+      return true;
+    }
+  }
+}
+
 const validatePassword = (element) => {
   // Validação da senha, ainda falta comparar com o nome e com a data de nascimento:
   const passwordValue = element.value.trim();
+  console.log(passwordValue);
+  
   if(passwordValue === '' || !isValidPassword(element)) {
     setError(element, 'Informe uma senha válida!');
-  } else if(email.value.trim() !== '' && passwordValue.toLowerCase().match(email.value.trim().toLowerCase())) {
-    setError(element, 'Informe uma senha válida, diferente do seu e-mail!');
-  } else if(fullName.value.trim() !== '' && passwordValue.toLowerCase().match(fullName.value.trim().toLowerCase())) {
-    setError(element, 'Informe uma senha válida, diferente do seu nome!');
+  } else if(fullName.value.trim().length >= 6 && passwordContainsName()) {
+    setError(element, 'Informe uma senha válida, diferente do nome!');
+  } else if(email.value.trim() !== '' && passwordContainsBirthdayDate()) {
+    setError(element, 'Informe uma senha válida, diferente da data de nascimento!');
+  } else if(isValidEmail(email) && passwordContainsEmail()) {
+    setError(element, 'Informe uma senha válida, diferente do e-mail!');
   } else {
     setSuccess(element);
     return true;
@@ -399,7 +451,7 @@ state.onblur = () => {
   validateState(state);
 }
 
-// Função para limpar os campos do formulário, no futuro posso dividir a função em duas: uma para pegar os ids dos elementos e outra para limpar os campos. Com isso poderei invocar a função pegar os IDs em outras funções.
+// Função para limpar os campos do formulário no evento 'Submit':
 const cleanInputs = () => {
   const inputFields = document.getElementsByClassName("inputField");
   for (fieldElement of inputFields) {
@@ -413,18 +465,19 @@ const cleanInputs = () => {
   }
 }
 
+// Função que verifica se tem algum elemento com a classe '.error':
 const validateClassError = () => {
-  const errorMessageClass = document.getElementsByClassName("error");
+  const errorMessageClass = document.getElementsByClassName("error"); // recebe os elementos com a classe '.error'
   console.log('função executada');
-  if(errorMessageClass.length > 0) {
+  if(errorMessageClass.length > 0) {  // verifica se o lenght da constante é maior que 0 (se tem algum elemento com a classe '.error')
     return true;
   }
 }
 
-// Função que fará a validação dos inputs e a submissão do formulário:
+// Função de validação dos inputs e de submissão do formulário:
 const submitInputs = () => {
 
-  validateFullName(fullName);
+  validateFullName(fullName); // validação de todos os campos do formulário;
   validateBirthday(birthday);
   validateEmail(email);
   validatePassword(password);
@@ -436,12 +489,12 @@ const submitInputs = () => {
   validateCity(city);
   validateState(state);
 
-  if (validateClassError()) {
-    console.log('Deu erro!');
-    swal('Dados inválidos!', 'Verifique os campos em vermelho!', 'error');
-  } else {
-    console.log('Deu certo!')
-    cleanInputs();
-    swal('Feito!', 'Dados salvos com sucesso!', 'success');
+  if (validateClassError()) { // se tiver algum elemento com a classe '.error':
+    console.log('Deu erro!'); 
+    swal('Dados inválidos!', 'Verifique os campos em vermelho!', 'error'); // Dispara um alerta de erro na tela;
+  } else {                    // se não...
+    console.log('Deu certo!') 
+    cleanInputs();            // invoca a função de limpar os campos do formulário, e...
+    swal('Feito!', 'Dados salvos com sucesso!', 'success'); // dispara um alerta de sucesso na tela.
   }
 }
