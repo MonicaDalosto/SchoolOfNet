@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grid Layout</title>
+  <style>
+    .main { 
+      display: grid;
+      grid-template-areas: 
+      "nav nav"
+      "sidebar content"
+      "footer footer";
+      gap: 5px;
+      grid-template-columns: 30% 70%;
+    }
+    
+    .grid-item {
+      background: #cccccc;
+      padding: 10px;
+    }
+    
+    .nav {
+      grid-area: nav;
+    }
+
+    .sidebar {
+      grid-area: sidebar;
+    }
+
+    .content {
+      grid-area: content;
+    }
+
+    .footer {
+      grid-area: footer;
+    }
+
+  </style>
+</head>
+<body>
+  <main class="main">
+    <nav class="grid-item nav"></nav>
+    <section class="sidebar grid-item"></section>
+    <section class="content grid-item"></section>
+    <footer class="footer grid-item"></footer>
+  </main>
+</body>
+</html>

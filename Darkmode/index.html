@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="color-scheme" content="dark light">
+</head>
+<body>
+  <button class="btn">Toggle to Dark</button>
+  <script>
+    (function() {
+      console.log(localStorage.getItem('theme'));
+      if (localStorage.getItem('theme') == null) {
+        const color_scheme = window.matchMedia('(prefers-color-scheme: dark)')
+        if (color_scheme.matches) {
+          document.body.classList.add('dark-theme');
+          localStorage.setItem('theme', 'dark-theme');
+          console.log('Matches dark theme');
+        } else {
+          console.log('Matches light theme');
+          localStorage.setItem('theme', 'light-theme');
+        }
+      } else if (localStorage.getItem('theme') === 'dark-theme') {
+        document.body.classList.add('dark-theme');
+      }
+    })();
+
+    const btn = document.querySelector('.btn');
+
+    btn.addEventListener('click', function(){
+      document.body.classList.toggle('dark-theme');
+      if (btn.innerHTML == 'Toggle to Light') {
+        btn.innerHTML = 'Toggle to Dark'
+        localStorage.setItem('theme', 'light-theme');
+      } else {
+        btn.innerHTML = 'Toggle to Light';
+        localStorage.setItem('theme', 'dark-theme');
+      }
+    })
+
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+body.dark-theme {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+body {
+  background-color: #cecece;
+  color: #000000;
+}
+
+body.dark-theme .btn {
+  background-color: aquamarine;
+  color: #000000;
+}
+
+body .btn {
+  background-color: rgb(21, 58, 143);
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* 
+
+:root {
+  color-scheme: dark light;
+}
+
+body {
+  --bg-color: 
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: blue;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: darksalmon;
+  }
+} */
